@@ -1,51 +1,57 @@
 const { SubscribtionModel } = require('../db/index');
-
-const User = require('../Users/index');
+const User = require('../users/index');
 
 const user = new User();
 class Subscribtion {
-    constructor() {}
-    async create(source, target) {
-        const findTarget = await user.find({_id: target });
-        if(!findTarget) {
-            throw new Error('Target not found!')
-        }
-        console.log(findTarget, source, target);
-        const result = await SubscribtionModel.create({source, target, state: 'pending'});
-        return result;
-    }
-    async getPendingSubscribtions(id) {
-        const currentUser = await user.find({_id: id});
-        if(!currentUser) {
-            throw new Error('User not found!');
-        }
-        const subscribtions = await SubscribtionModel.find({target: id, state: 'pending'}).exec();
-        return subscribtions;
-    }
-    
-    async acceptPendingSubscription(userId, subscribtionId) {
-        const currentUser = await user.find({ _id: userId });
-        if(!currentUser) {
-            throw new Error('User not found!')
-        }
-        const subscribtion = await SubscribtionModel.updateOne({
-            _id: subscribtionId,
-            target: userId,
-            state: 'pending'}, { $set: {state: 'accepted'} });
+  constructor() {}
 
-            return subscribtion;
+  async create(source, target) {
+    const findTarget = await user.find({ _id: target });
+    if(!findTarget) {
+      throw new Error('Target not found!');
+    }
+    console.log(findTarget, source, target);
+    const result = await SubscribtionModel.create({ source, target, state: 'panding' });
+    return result;
+  }
+
+  async getPnadingSubscriptions(id) {
+    console.log(id);
+    const currentUser = await user.find({ _id: id });
+    console.log(currentUser);
+    if(!currentUser) {
+      throw new Error('User not found!');
+    }
+    const subcribtions = await SubscribtionModel.find({ target: id, state: 'panding'}).exec();
     
+    return subcribtions;
+  }
+
+  async acceptPandingSubscription(userId, subscribtionId) {
+    const currentUser = await user.find({ _id: userId });
+    if(!currentUser) {
+      throw new Error('User not found!');
     }
-    async rejectPendingSubscribtion(userId, subscribtionId) {
-        const currentUser = await user.find( { _id: userId});
-        if(!currentUser) {
-            throw new Error('User not found!')
-        }
-        const subscribtion = await SubscribtionModel.deleteOne( {
-            _id: subscribtionId,
-            target: userId,
-            state: 'pending' });
-            return subscribtions;
+    const subscription = await SubscribtionModel.updateOne({ 
+      _id: subscribtionId, 
+      target: userId, 
+      state: 'panding' }, { $set: { state: 'accept' } });
+    
+    return subscription;
+  }
+
+  async rejectPandingSubscribtions(userId, subscribtionId) {
+    const currentUser = await user.find({ _id: userId });
+    if(!currentUser) {
+      throw new Error('User not found!');
     }
+    const subscription = await SubscribtionModel.deleteOne({
+      _id: subscribtionId, 
+      target: userId, 
+      state: 'panding' });
+    
+    return subscription;
+  }
 }
+
 module.exports = Subscribtion;
