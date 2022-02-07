@@ -1,11 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-mongoose.connect('mongodb://127.0.0.1:27017/basic', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect("mongodb://127.0.0.1:27017/basic", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 var db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 const Schema = mongoose.Schema;
 
@@ -29,13 +31,12 @@ const subscribtionSchema = {
     type: Date,
     default: new Date(),
   },
-}
+};
 
-const UserModel = mongoose.model('users', userSchema );
-const SubscribtionModel = mongoose.model('subscribtions', subscribtionSchema);
-
+const UserModel = mongoose.model("users", userSchema);
+const SubscribtionModel = mongoose.model("subscribtions", subscribtionSchema);
 
 module.exports = {
   UserModel,
   SubscribtionModel,
-}
+};
